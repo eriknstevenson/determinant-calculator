@@ -1,4 +1,4 @@
-# MATH 211 - [Extra Problem #3](http://www.math.wm.edu/~amzimmer/EX3.pdf)
+# Determinant Algorithm Comparison
 
 ## Description 
 
@@ -13,4 +13,3 @@ cmake ..
 make
 ./determinant
 ```
-
