@@ -5,9 +5,8 @@ Matrix::Matrix(const int m, const int n, const float *data) : m(m), n(n) {
 
     matrix = new float[m * n];
 
-    for (int i = 0; i < m * n; ++i) {
-        matrix[i] = data[i];
-    }
+    memcpy(matrix, data, sizeof(float) * m * n);
+
 }
 
 Matrix::~Matrix() {
@@ -92,7 +91,8 @@ float Matrix::determinantSlow() {
     if (m == 1) return matrix[0];
 
     for (int i = 0; i < n; ++i) {
-        det += multiplier * matrix[i] * getSubmatrix(1, i + 1).determinantSlow();
+        if (std::abs(matrix[i]) > zero)
+            det += multiplier * matrix[i] * getSubmatrix(1, i + 1).determinantSlow();
         multiplier *= -1;
     }
 
@@ -104,9 +104,7 @@ float Matrix::determinantFast() {
 
     // Take a copy of the matrix before mutating it with the determinant calculations
     float *originalMatrix = new float [m * n];
-    for (int i = 0; i < m * n; ++i) {
-        originalMatrix[i] = matrix[i];
-    }
+    memcpy(originalMatrix, matrix, sizeof(float) * m * n);
 
     const float beta = makeUpperTriangular();
     const float det = beta * multiplyDiagonal();
